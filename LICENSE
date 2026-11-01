@@ -1,0 +1,110 @@
+Dynamic-Risk Net Noncommercial Research License 1.0
+
+Copyright (c) 2026 Dynamic-Risk Net contributors.
+All rights reserved except as expressly granted below.
+
+1. Scope
+
+This license applies to the original Dynamic-Risk Net contributions distributed
+in this release, including source code and configuration files in code/, derived
+human risk annotations and release metadata in sample200/, model checkpoints
+and configurations in checkpoints/, and accompanying documentation (collectively,
+the "Materials"). Separately licensed third-party materials are excluded and
+remain subject to their respective terms, as described in Section 6.
+
+2. Permission for noncommercial research
+
+Subject to this license, you may download, copy, inspect, execute, evaluate,
+modify, and create adaptations of the Materials solely for noncommercial
+scientific or scholarly research. Permitted activities include reproducing
+experiments, comparing methods, analyzing annotations, and training or evaluating
+research models, provided that these activities are not primarily intended for
+or directed toward commercial advantage or monetary compensation.
+
+You may publish research findings, aggregate evaluation results, and scholarly
+figures produced through permitted use, subject to applicable third-party
+rights. Publication of research findings does not require disclosure of your
+unrelated research code or data.
+
+3. Restrictions
+
+No permission is granted for commercial use, commercial research and development,
+product development, production deployment, or use in a paid product, service,
+consulting engagement, or other activity primarily directed toward commercial
+advantage or monetary compensation. These restrictions apply to the Materials
+and to modifications or adaptations of them, including fine-tuned or otherwise
+adapted versions of the supplied checkpoints.
+
+The absence of a fee, or an organization's nonprofit or academic status, does
+not by itself determine whether a use is permitted. Uses outside noncommercial
+scientific or scholarly research require separate written permission from the
+relevant rights holders.
+
+4. Redistribution and attribution
+
+You may redistribute the Materials, including modifications or adaptations,
+only for the permitted purposes in Section 2 and subject to all of the following:
+
+  a. Include this license, the applicable copyright notices, and
+     THIRD_PARTY_NOTICES.md with each redistribution.
+  b. Identify Dynamic-Risk Net as the source and retain the authorship and
+     attribution information supplied with the redistributed Materials.
+  c. Clearly identify your modifications and do not imply that they are an
+     official release or endorsed by the original authors.
+  d. Apply this license to redistributed original DRN contributions and your
+     adaptations of them. Do not grant broader permissions for those Materials.
+  e. Preserve all separately applicable third-party notices and license terms.
+
+Please cite "Dynamic-Risk Net: Fusing Lane Graphs and Actor States for Dynamic
+Risk Assessment" by Seungwoo Nham and Jinho Lee in publications using the
+Materials. This citation request does not replace the notice requirements above.
+
+5. No additional rights
+
+No patent, trademark, endorsement, privacy, publicity, or other rights are granted
+except for the permissions expressly stated in this license. All other rights
+are reserved. This license does not authorize access to or redistribution of
+the unreleased collaborative-project dataset or annotations.
+
+6. Third-party materials and underlying datasets
+
+This license grants permissions only to the extent that the DRN contributors
+hold the necessary rights. It does not relicense third-party dependencies,
+datasets, maps, identifiers, or other third-party materials. It does not remove,
+replace, or narrow rights granted independently under third-party licenses.
+Where a separately applicable third-party license governs material or a portion
+of it, that license continues to govern that material or portion.
+
+nuScenes sensor data, original annotations, and maps are not included. Obtain
+them separately and comply with their applicable license and dataset terms:
+https://www.nuscenes.org/terms-of-use
+
+7. Termination
+
+The permissions granted by this license terminate automatically if you breach
+its terms. Upon termination, cease uses and distributions that require these
+permissions. Rights held independently under third-party licenses or applicable
+law are unaffected. Reinstatement requires written permission from the relevant
+DRN rights holders.
+
+8. Disclaimer of warranties and limitation of liability
+
+THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, TITLE, OR NONINFRINGEMENT. TO THE MAXIMUM EXTENT
+PERMITTED BY APPLICABLE LAW, THE AUTHORS AND COPYRIGHT HOLDERS SHALL NOT BE
+LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+MATERIALS OR THEIR USE.
+
+9. Contact
+
+For permission requests concerning original DRN contributions, contact:
+Seungwoo Nham: minamisyou@gmail.com
+Jinho Lee: jhjy2491@tukorea.ac.kr
+
+Permission concerning third-party materials must be obtained from the relevant
+third-party rights holders.
+
+This is a custom research license, not the MIT License or a Creative Commons
+license, and it does not provide unrestricted open-source use rights.

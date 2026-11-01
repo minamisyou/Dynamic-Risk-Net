@@ -1,0 +1,24 @@
+{
+ "model": "drn",
+ "seed": 2,
+ "epochs": 50,
+ "batch_size": 32,
+ "lr": 0.001,
+ "weight_decay": 0.01,
+ "lambda_traj": 0.5,
+ "risk_on": "unit",
+ "cw_power": 0.25,
+ "pool": "max",
+ "model_opts": {
+  "risk_cond": "lane",
+  "radius": 15.0,
+  "dir_gate": true,
+  "threat_fix": true
+ },
+ "augment": "mirror,rot90",
+ "ema": 0.0,
+ "arch": "drn",
+ "oversample": true,
+ "amp": false,
+ "deterministic": true
+}

@@ -1,0 +1,89 @@
+# Dynamic-Risk Net 데이터 처리 설정
+# 기본 데이터 버전은 배포 샘플 토큰이 포함된 nuScenes v1.0-trainval이다.
+# 논문에 명시되지 않은 세부 설정은 이 파일에서 조정한다.
+
+nuscenes:
+  dataroot: ~/data/nuscenes        # samples/, maps/expansion/, v1.0-*/ 가 있는 폴더
+  version: v1.0-trainval               # sample200 scene tokens are in this version
+output_dir: ~/data/drn_dataset
+seed: 0
+
+trajectory:                        # 논문 Fig.1: history 20 step, future 30 step
+  hz: 10                           # nuScenes 키프레임(2Hz)을 선형 보간
+  history_s: 2.0
+  future_s: 3.0
+
+roi:
+  radius_m: 60.0                   # ego 기준 actor / lane 수집 반경
+
+label_roi:                         # 사람이 라벨을 매길 lane 범위 (ego 좌표계, x=전방)
+  x_min: -5.0
+  x_max: 40.0
+  y_abs: 15.0
+  min_length_m: 3.0                # 이 범위 안에 최소 이만큼 걸친 lane만 라벨 대상 (ego가 있는 lane은 항상 포함)
+
+lane:
+  resolution_m: 1.0                # arcline path 이산화 간격
+  node_spacing_m: 2.0              # LaneGCN 노드 간격(학습 로더용)
+  neighbor_max_dist_m: 4.5         # 좌우 이웃 lane 판정 거리
+  neighbor_max_angle_deg: 20.0
+
+label_units:                       # 라벨 단위 = 같은 흐름의 lane 묶음 (drn/lanes.py assign_label_units)
+  chain: true                      # 분기 없이 이어지는 lane을 하나로
+  ego_path: true                   # ego가 있는 lane + 그 앞의 유일한 진행 경로(connector, 그 다음 lane)를 ego 단위로
+  parallel: true                   # 같은 방향으로 나란한 lane을 하나로 (ego 경로는 제외)
+  movement: true                   # 교차로에서 시작·끝이 같은 진행(같은 회전)의 connector를 하나로
+  movement_end_dist_m: 5.0         # connector 시작점끼리, 끝점끼리 이 거리 이내
+  movement_heading_deg: 30.0       # 시작·끝 진행 방향 차이 한도
+
+extraction:
+  require_template: true           # false면 시나리오 템플릿에 안 걸린 키프레임도 채택 (전 프레임 라벨링용)
+  min_gap_s: 2.0                   # 같은 scene에서 채택하는 키프레임 사이 최소 간격(중복 완화). 0이면 전부
+  min_label_units: 2               # 라벨 단위가 이보다 적으면 제외
+
+templates:
+  moving_speed_mps: 1.0            # 이 속도 이상이면 "움직이는" actor
+  intersection:                    # unprotected intersection
+    ahead_m: 40.0
+    corridor_half_width_m: 6.0
+    near_m: 10.0                   # 교차로 폴리곤으로부터 이 거리 이내 차량을 본다
+    min_heading_diff_deg: 30.0     # ego와 진행 방향이 이만큼 다르면 상충 차량
+    signal_radius_m: 25.0          # 신호등 존재 여부 판정 거리 (nuScenes에 신호 "상태"는 없다)
+    exclude_signalized: false      # true면 신호등 있는 교차로 제외
+  merge:                           # merge / weave in traffic
+    ahead_m: 50.0
+    branch_m: 25.0                 # 합류점에서 이 거리 이내, 다른 진입 lane 위의 이동 차량
+    adjacent_lat_min_m: 1.5
+    adjacent_lat_max_m: 5.5
+    adjacent_lon_min_m: -15.0
+    adjacent_lon_max_m: 25.0
+    adjacent_heading_deg: 30.0
+    min_adjacent: 2
+  pedestrian:                      # pedestrian curb proximity
+    ahead_m: 35.0
+    lateral_m: 10.0
+    max_lane_dist_m: 4.0           # 가장 가까운 lane 중심선까지 거리
+    min_count: 1
+  occlusion:                       # occlusion / limited sight
+    radius_m: 30.0                 # 가려진 "이동 중 actor 또는 보행자"만 센다 (주차 차량 제외)
+    low_visibility_tokens: ["1", "2"]   # nuScenes visibility: 1=0-40%, 2=40-60%
+    min_occluded: 2
+    large_ahead_m: 20.0
+    large_lateral_m: 6.0
+
+ttc:
+  horizon_s: 10.0                  # 이보다 큰 TTC는 horizon으로 자른다(충돌 없음 포함)
+  margin_m: 0.5                    # 충돌 반경 여유
+  lane_dist_m: 3.0                 # 충돌 지점이 lane 중심선에서 이 거리 이내면 그 lane의 TTC
+  loose:                           # 거리 ÷ 접근 속도 (충돌 경로를 따지지 않는 느슨한 값, loose_ttc_s)
+    max_pair_m: 30.0               # 이 거리 이내에서 가까워지고 있는 객체 쌍만
+    lane_dist_m: 3.0               # 두 객체 중 하나 또는 그 시점의 중간점이 lane에서 이 거리 이내면 그 lane의 값
+  hybrid_base: loose               # 혼합 TTC의 계산 부분: loose 또는 strict (어노테이터가 추정한 단위는 추정값으로 대체)
+
+annotation:
+  annotators: [A1, A2, A3]
+  host: 127.0.0.1
+  port: 5005
+
+
+split: {train: 0.70, val: 0.15, test: 0.15}   # nuScenes scene 단위 분할
